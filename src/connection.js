@@ -6,7 +6,7 @@ function Connection() {
   this.connected = false;
 }
 
-Connection.prototype.connect = function() {
+Connection.prototype.connect = function(err, data) {
   this.connected = true;
   return this;
 };
