@@ -1,0 +1,26 @@
+{
+  "name": "depot",
+  "version": "0.0.1",
+  "description": "Ships it for you. Lets you deploy and manage static JS apps, serves up the index.html for you.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bosgood/depot.git"
+  },
+  "keywords": [
+    "javascript",
+    "singlepageapp",
+    "cdn",
+    "deploy",
+    "deployer"
+  ],
+  "author": "Brad Osgood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bosgood/depot/issues"
+  },
+  "homepage": "https://github.com/bosgood/depot"
+}
