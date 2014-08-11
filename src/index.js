@@ -4,13 +4,13 @@ var app = express();
 
 const PORT = 3000;
 
-app.get('/', function() {
-  // list all available apps
-});
+var Connection = require('./connections/redis-connection');
+connection = new Connection().connect();
 
-app.get('/app', function() {
-  // serve index.html of app listed
-});
+// list all available apps
+app.get('/', require('./routes/list-apps')(connection));
+// serve index.html of app listed
+app.get('/app', require('./routes/serve-app')(connection));
 
 var server = app.listen(PORT, function() {
   console.log(
