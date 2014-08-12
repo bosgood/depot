@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "chalk": "^0.5.1",
-    "express": "^4.8.3"
+    "express": "^4.8.3",
+    "hiredis": "^0.1.17",
+    "redis": "^0.12.1"
   }
 }
