@@ -34,7 +34,6 @@ RedisConnection.prototype.disconnect = function(callback) {
   return this;
 };
 
-
 RedisConnection.prototype.getLatest = function(callback) {
   this.client.get(KEYS.latest(), function(err, res) {
     callback(err, res);

@@ -1,6 +1,6 @@
-var route = function(connection) {
+var route = function(db) {
   return function listApps(req, res) {
-    connection.getApplications(null, null, function(err, data) {
+    db.getApplications(null, null, function(err, data) {
       if (err) {
         res.status(500).send({ error: err.toString() });
         return;
