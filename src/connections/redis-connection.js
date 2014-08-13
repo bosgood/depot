@@ -9,7 +9,7 @@ var PREFIX = 'depot:';
 var KEYS = {
   latest:   function()   { return PREFIX + 'version-latest'; },
   apps:     function()   { return PREFIX + 'apps'; },
-  versions: function()   { return PREFIX + 'versions'; },
+  versions: function(id) { return PREFIX + 'versions-' + id; },
   version:  function(id) { return PREFIX + 'version-' + id; },
   content:  function(id) { return PREFIX + 'content-' + id; },
   app:      function(id) { return PREFIX + 'app-' + id; }
@@ -47,7 +47,7 @@ RedisConnection.prototype.getVersion = function(versionId, callback) {
   });
 };
 
-RedisConnection.prototype.getVersions = function(limit, offset, callback) {
+RedisConnection.prototype.getVersions = function(appId, limit, offset, callback) {
   if (offset == null) {
     offset = 0;
   }
@@ -56,7 +56,7 @@ RedisConnection.prototype.getVersions = function(limit, offset, callback) {
     limit = 20;
   }
 
-  this.client.lrange(KEYS.versions(), function(err, res) {
+  this.client.lrange(KEYS.versions(appId), offset, limit, function(err, res) {
     callback(err, res);
   });
 };

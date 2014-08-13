@@ -7,10 +7,11 @@ const PORT = 3000;
 var Connection = require('./connections/redis-connection');
 connection = new Connection().connect();
 
-// list all available apps
-app.get('/', require('./routes/list-apps')(connection));
-// serve index.html of app listed
-app.get('/app', require('./routes/serve-app')(connection));
+// list available apps
+app.get('/apps', require('./routes/list-apps')(connection));
+
+// list available app versions
+app.get('/apps/:id/versions', require('./routes/list-versions')(connection));
 
 var server = app.listen(PORT, function() {
   console.log(

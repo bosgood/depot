@@ -48,11 +48,12 @@ Connection.prototype.getVersion = function(versionId, callback) {
 
 /**
  * Gets the latest deployIds
+ * @param {string} application id
  * @param {integer} limit (defaults to 20)
  * @param {integer} offset (defaults to 0)
  * @param callback {err, data}
  */
-Connection.prototype.getVersions = function(limit, offset, callback) {
+Connection.prototype.getVersions = function(appId, limit, offset, callback) {
 };
 
 /**
