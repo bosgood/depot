@@ -1,6 +1,5 @@
 var route = function(db) {
   return function getVersion(req, res) {
-    debugger;
     var appId = req.param('appId');
     var versionId = req.param('versionId');
 
