@@ -25,17 +25,19 @@ Connection.prototype.disconnect = function(callback) {
 
 /**
  * Gets the latest version contents
+ * @param {string} application id
  * @param callback {err, data}
  */
-Connection.prototype.getLatest = function(callback) {
+Connection.prototype.getLatestContent = function(appId, callback) {
 };
 
 /**
  * Updates the latest version contents to the given versionId
+ * @param {string} application id
  * @param {string} versionId version to promote to latest
  * @param callback {err, data}
  */
-Connection.prototype.updateLatest = function(versionId, callback) {
+Connection.prototype.updateLatestContent = function(appId, versionId, callback) {
 };
 
 /**
