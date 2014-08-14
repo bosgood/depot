@@ -31,11 +31,11 @@ Connection.prototype.getLatest = function(callback) {
 };
 
 /**
- * Sets the latest version contents to the given versionId
+ * Updates the latest version contents to the given versionId
  * @param {string} versionId version to promote to latest
  * @param callback {err, data}
  */
-Connection.prototype.setLatest = function(versionId, callback) {
+Connection.prototype.updateLatest = function(versionId, callback) {
 };
 
 /**
@@ -57,6 +57,14 @@ Connection.prototype.getVersions = function(appId, limit, offset, callback) {
 };
 
 /**
+ * Creates or updates an application version
+ * @param {object} version parameters
+ * @param callback {err, data}
+ */
+Connection.prototype.updateVersion = function(appId, versionId, params, callback) {
+};
+
+/**
  * Gets the deployable applications
  * @param {integer} limit (defaults to 20)
  * @param {integer} offset (defaults to 0)
@@ -67,19 +75,19 @@ Connection.prototype.getApplications = function(limit, offset, callback) {
 
 /**
  * Gets a specific application information object
- * @param {string} applicationId
+ * @param {string} appId
  * @param callback {err, data}
  */
-Connection.prototype.getApplication = function(applicationId, callback) {
+Connection.prototype.getApplication = function(appId, callback) {
 };
 
 /**
  * Creates or updates an application
- * @param {string} applicationId
+ * @param {string} appId
  * @param {object} application parameters
  * @param callback {err, data}
  */
-Connection.prototype.updateApplication = function(applicationId, params, callback) {
+Connection.prototype.updateApplication = function(appId, params, callback) {
 };
 
 module.exports = Connection;
