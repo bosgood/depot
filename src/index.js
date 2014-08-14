@@ -42,6 +42,9 @@ app.get('/serve/:appId/:versionId', require('./routes/serve-app')(connection));
 // serve latest index.html of app listed
 app.get('/serve/:appId', require('./routes/serve-app')(connection));
 
+// deploy the app version by setting it as the latest version
+app.post('/deploy/:appId/:versionId', require('./routes/deploy-app')(connection));
+
 var server = app.listen(PORT, function() {
   console.log(
     chalk.red(

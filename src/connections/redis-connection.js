@@ -44,6 +44,12 @@ RedisConnection.prototype.getLatestContent = function(appId, callback) {
   });
 };
 
+RedisConnection.prototype.updateLatestContent = function(appId, contents, callback) {
+  this.client.set(KEYS.latest(appId), contents, function(err, res) {
+    callback(err, res);
+  });
+};
+
 RedisConnection.prototype.getContent = function(appId, versionId, callback) {
   this.client.get(KEYS.content(appId, versionId), function(err, res) {
     callback(err, res);
