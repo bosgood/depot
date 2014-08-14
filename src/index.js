@@ -2,7 +2,7 @@ var express = require('express');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
 
-const PORT = 3000;
+const PORT = 3005;
 
 var Connection = require('./connections/redis-connection');
 connection = new Connection().connect();
