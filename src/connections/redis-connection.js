@@ -12,7 +12,7 @@ var KEYS = {
   version:  function(id) { return PREFIX + 'version:' + id; },
   content:  function(id) { return PREFIX + 'content:' + id; },
   app:      function(id) { return PREFIX + 'app:' + id; },
-  latest:   function()   { return KEYS.versions('latest'); }
+  latest:   function()   { return KEYS.content('latest'); }
 };
 
 function RedisConnection() {
@@ -41,7 +41,7 @@ RedisConnection.prototype.getLatest = function(callback) {
 };
 
 RedisConnection.prototype.getVersion = function(versionId, callback) {
-  this.client.hmget(KEYS.version(versionId), function(err, res) {
+  this.client.hgetall(KEYS.app(applicationId), function(err, res) {
     callback(err, res);
   });
 };
@@ -55,7 +55,7 @@ RedisConnection.prototype.getVersions = function(appId, limit, offset, callback)
     limit = 20;
   }
 
-  this.client.lrange(KEYS.versions(appId), offset, limit, function(err, res) {
+  this.client.zrange(KEYS.versions(appId), offset, limit, function(err, res) {
     callback(err, res);
   });
 };
@@ -69,7 +69,7 @@ RedisConnection.prototype.getApplications = function(limit, offset, callback) {
     limit = 20;
   }
 
-  this.client.lrange(KEYS.apps(), offset, limit, function(err, res) {
+  this.client.zrange(KEYS.apps(), offset, limit, function(err, res) {
     callback(err, res);
   });
 };
@@ -83,6 +83,7 @@ RedisConnection.prototype.getApplication = function(applicationId, callback) {
 RedisConnection.prototype.updateApplication = function(applicationId, params, callback) {
   this.client.multi()
     .del(applicationId)
+    .zadd(KEYS.apps(), params.createdDate, applicationId)
     .hmset(KEYS.app(applicationId), params)
     .exec(function(err, res) {
       callback(err, res);
