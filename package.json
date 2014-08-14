@@ -30,9 +30,12 @@
     "node": "~v0.10.29"
   },
   "dependencies": {
+    "body-parser": "^1.6.3",
     "chalk": "^0.5.1",
     "express": "^4.8.3",
     "hiredis": "^0.1.17",
+    "mongoose": "^3.8.14",
+    "node-uuid": "^1.4.1",
     "redis": "^0.12.1"
   }
 }

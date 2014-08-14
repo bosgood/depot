@@ -73,4 +73,13 @@ Connection.prototype.getApplications = function(limit, offset, callback) {
 Connection.prototype.getApplication = function(applicationId, callback) {
 };
 
+/**
+ * Creates or updates an application
+ * @param {string} applicationId
+ * @param {object} application parameters
+ * @param callback {err, data}
+ */
+Connection.prototype.updateApplication = function(applicationId, params, callback) {
+};
+
 module.exports = Connection;

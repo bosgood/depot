@@ -7,12 +7,12 @@ var redis = require('redis');
 
 var PREFIX = 'depot:';
 var KEYS = {
-  latest:   function()   { return PREFIX + 'version-latest'; },
   apps:     function()   { return PREFIX + 'apps'; },
-  versions: function(id) { return PREFIX + 'versions-' + id; },
-  version:  function(id) { return PREFIX + 'version-' + id; },
-  content:  function(id) { return PREFIX + 'content-' + id; },
-  app:      function(id) { return PREFIX + 'app-' + id; }
+  versions: function(id) { return PREFIX + 'versions:' + id; },
+  version:  function(id) { return PREFIX + 'version:' + id; },
+  content:  function(id) { return PREFIX + 'content:' + id; },
+  app:      function(id) { return PREFIX + 'app:' + id; },
+  latest:   function()   { return KEYS.versions('latest'); }
 };
 
 function RedisConnection() {
@@ -75,9 +75,18 @@ RedisConnection.prototype.getApplications = function(limit, offset, callback) {
 };
 
 RedisConnection.prototype.getApplication = function(applicationId, callback) {
-  this.client.get(KEYS.app(applicationId), function(err, res) {
+  this.client.hgetall(KEYS.app(applicationId), function(err, res) {
     callback(err, res);
   });
+};
+
+RedisConnection.prototype.updateApplication = function(applicationId, params, callback) {
+  this.client.multi()
+    .del(applicationId)
+    .hmset(KEYS.app(applicationId), params)
+    .exec(function(err, res) {
+      callback(err, res);
+    });
 };
 
 module.exports = RedisConnection;
