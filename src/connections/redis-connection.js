@@ -10,7 +10,7 @@ var KEYS = {
   apps:     function()   { return PREFIX + 'apps'; },
   versions: function(id) { return PREFIX + 'versions:' + id; },
   app:      function(id) { return PREFIX + 'app:' + id; },
-  latest:   function(id) { return KEYS.content(appId, 'latest'); },
+  latest:   function(id) { return KEYS.content(id, 'latest'); },
   version:  function(appId, versionId) {
     return PREFIX + 'version:' + appId + ':' + versionId;
   },
@@ -38,8 +38,14 @@ RedisConnection.prototype.disconnect = function(callback) {
   return this;
 };
 
-RedisConnection.prototype.getLatest = function(appId, callback) {
+RedisConnection.prototype.getLatestContent = function(appId, callback) {
   this.client.get(KEYS.latest(appId), function(err, res) {
+    callback(err, res);
+  });
+};
+
+RedisConnection.prototype.getContent = function(appId, versionId, callback) {
+  this.client.get(KEYS.content(appId, versionId), function(err, res) {
     callback(err, res);
   });
 };

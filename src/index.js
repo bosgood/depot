@@ -36,6 +36,12 @@ var addUpdateRoute = require('./routes/update-app')(connection);
 app.post('/apps/:id', addUpdateRoute);
 app.put('/apps/:id', addUpdateRoute);
 
+// serve index.html of app listed for the given version
+app.get('/serve/:appId/:versionId', require('./routes/serve-app')(connection));
+
+// serve latest index.html of app listed
+app.get('/serve/:appId', require('./routes/serve-app')(connection));
+
 var server = app.listen(PORT, function() {
   console.log(
     chalk.red(
