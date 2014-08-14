@@ -38,8 +38,8 @@ RedisConnection.prototype.disconnect = function(callback) {
   return this;
 };
 
-RedisConnection.prototype.getLatest = function(callback) {
-  this.client.get(KEYS.latest(), function(err, res) {
+RedisConnection.prototype.getLatest = function(appId, callback) {
+  this.client.get(KEYS.latest(appId), function(err, res) {
     callback(err, res);
   });
 };
@@ -78,17 +78,17 @@ RedisConnection.prototype.getApplications = function(limit, offset, callback) {
   });
 };
 
-RedisConnection.prototype.getApplication = function(applicationId, callback) {
-  this.client.hgetall(KEYS.app(applicationId), function(err, res) {
+RedisConnection.prototype.getApplication = function(appId, callback) {
+  this.client.hgetall(KEYS.app(appId), function(err, res) {
     callback(err, res);
   });
 };
 
-RedisConnection.prototype.updateApplication = function(applicationId, params, callback) {
+RedisConnection.prototype.updateApplication = function(appId, params, callback) {
   this.client.multi()
-    .del(applicationId)
-    .zadd(KEYS.apps(), params.createdDate, applicationId)
-    .hmset(KEYS.app(applicationId), params)
+    .del(KEYS.app(appId))
+    .zadd(KEYS.apps(), params.createdDate, appId)
+    .hmset(KEYS.app(appId), params)
     .exec(function(err, res) {
       callback(err, res);
     });
