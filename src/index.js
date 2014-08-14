@@ -17,6 +17,14 @@ var app = express()
 // list available apps
 app.get('/apps', require('./routes/list-apps')(connection));
 
+// app/update a version
+var addUpdateRoute = require('./routes/update-version')(connection);
+app.post('/apps/:appId/versions/:versionId', addUpdateRoute);
+app.put('/apps/:appId/versions/:versionId', addUpdateRoute);
+
+// list individual app version information
+app.get('/apps/:appId/versions/:versionId', require('./routes/show-version')(connection));
+
 // list available app versions
 app.get('/apps/:id/versions', require('./routes/list-versions')(connection));
 

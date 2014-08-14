@@ -9,10 +9,14 @@ var PREFIX = 'depot:';
 var KEYS = {
   apps:     function()   { return PREFIX + 'apps'; },
   versions: function(id) { return PREFIX + 'versions:' + id; },
-  version:  function(id) { return PREFIX + 'version:' + id; },
-  content:  function(id) { return PREFIX + 'content:' + id; },
   app:      function(id) { return PREFIX + 'app:' + id; },
-  latest:   function()   { return KEYS.content('latest'); }
+  latest:   function(id) { return KEYS.content(appId, 'latest'); },
+  version:  function(appId, versionId) {
+    return PREFIX + 'version:' + appId + ':' + versionId;
+  },
+  content:  function(appId, versionId) {
+    return PREFIX + 'content:' + appId + ':' + versionId;
+  }
 };
 
 function RedisConnection() {
@@ -40,8 +44,8 @@ RedisConnection.prototype.getLatest = function(callback) {
   });
 };
 
-RedisConnection.prototype.getVersion = function(versionId, callback) {
-  this.client.hgetall(KEYS.app(applicationId), function(err, res) {
+RedisConnection.prototype.getVersion = function(appId, versionId, callback) {
+  this.client.hgetall(KEYS.version(appId, versionId), function(err, res) {
     callback(err, res);
   });
 };
