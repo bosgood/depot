@@ -64,6 +64,20 @@ RedisConnection.prototype.getVersions = function(appId, limit, offset, callback)
   });
 };
 
+RedisConnection.prototype.updateVersion = function(appId, versionId, params, callback) {
+  var contents = params.contents;
+  delete params.contents;
+
+  this.client.multi()
+    .del(KEYS.version(appId, versionId))
+    .zadd(KEYS.versions(appId), params.createdDate, versionId)
+    .hmset(KEYS.version(appId, versionId), params)
+    .set(KEYS.content(appId, versionId), contents)
+    .exec(function(err, res) {
+      callback(err, res);
+    });
+}
+
 RedisConnection.prototype.getApplications = function(limit, offset, callback) {
   if (offset == null) {
     offset = 0;
