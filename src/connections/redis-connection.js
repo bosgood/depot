@@ -75,7 +75,7 @@ RedisConnection.prototype.getApplications = function(limit, offset, callback) {
 };
 
 RedisConnection.prototype.getApplication = function(applicationId, callback) {
-  this.client.get(KEYS.application(applicationId), function(err, res) {
+  this.client.get(KEYS.app(applicationId), function(err, res) {
     callback(err, res);
   });
 };
