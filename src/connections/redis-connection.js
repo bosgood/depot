@@ -25,16 +25,18 @@ function RedisConnection() {
 
 RedisConnection.prototype = Object.create(Connection.prototype);
 
-RedisConnection.prototype.connect = function(callback) {
-  // TODO read redis config from ENV
-  this.client = redis.createClient();
-  this.connected = true;
+RedisConnection.prototype.connect = function(env, callback) {
+  Connection.prototype.connect.apply(this, arguments);
+  this.client = redis.createClient(
+    this.env.get('stores:redis:port'),
+    this.env.get('stores:redis:host')
+  );
   return this;
 };
 
 RedisConnection.prototype.disconnect = function(callback) {
+  Connection.prototype.disconnect.apply(this, arguments);
   this.client.end();
-  this.connected = false;
   return this;
 };
 
