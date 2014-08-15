@@ -31,6 +31,19 @@ RedisConnection.prototype.connect = function(env, callback) {
     this.env.get('stores:redis:port'),
     this.env.get('stores:redis:host')
   );
+  var connectionString =
+    "redis://" +
+    this.env.get('stores:redis:host') +
+    ':' +
+    this.env.get('stores:redis:port')
+  ;
+
+  if (typeof callback === 'function') {
+    callback(null, {
+      store: 'redis',
+      connectionString: connectionString
+    })
+  }
   return this;
 };
 

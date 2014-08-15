@@ -15,7 +15,15 @@ nconf.file(path.join('config', ENV.toLowerCase() + '.json'));
 var Connection = require(
   './connections/' + nconf.get('store') + '-connection'
 );
-connection = new Connection().connect(nconf);
+connection = new Connection().connect(nconf, function(err, details) {
+  if (err) {
+    console.error(chalk.red('error connecting to database'));
+  } else {
+    console.log(
+      chalk.green('successfully connected to ' + details.store + ' (' + details.connectionString + ')')
+    );
+  }
+});
 
 var app = express()
   .use(bodyParser.urlencoded({

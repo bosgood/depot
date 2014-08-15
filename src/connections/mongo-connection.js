@@ -17,27 +17,37 @@ MongoConnection.prototype = Object.create(Connection.prototype);
 
 MongoConnection.prototype.connect = function(env, callback) {
   Connection.prototype.connect.apply(this, arguments);
-  mongoose.connect(
+  var connectionString =
     "mongodb://" +
     this.env.get('stores:mongo:host') +
     ':' +
     this.env.get('stores:mongo:port')
-  );
+  ;
+
+  this.client = mongoose.connection;
+  this.client.on('error', function() {
+    if (typeof callback === 'function') {
+      callback({
+        message: 'unable to connect to mongo',
+        store: 'mongo',
+        connectionString: connectionString
+      }, null);
+    }
+  });
+  this.client.on('open', function() {
+    if (typeof callback === 'function') {
+      callback(null, {
+        store: 'mongo',
+        connectionString: connectionString
+      });
+    }
+  });
+  mongoose.connect(connectionString);
   return this;
 };
 
 MongoConnection.prototype.disconnect = function(callback) {
   Connection.prototype.disconnect.apply(this, arguments);
-  this.connected = false;
-  return this;
-};
-
-MongoConnection.prototype.connect = function(callback) {
-  this.connected = true;
-  return this;
-};
-
-MongoConnection.prototype.disconnect = function(callback) {
   this.connected = false;
   return this;
 };
@@ -64,6 +74,7 @@ MongoConnection.prototype.getApplications = function(limit, offset, callback) {
 };
 
 MongoConnection.prototype.getApplication = function(appId, callback) {
+
 };
 
 MongoConnection.prototype.updateApplication = function(appId, params, callback) {
