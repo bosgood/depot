@@ -42,11 +42,21 @@ Connection.prototype.updateLatestContent = function(appId, versionId, callback) 
 };
 
 /**
- * Gets the version contents for a specific id
+ * Gets the version contents for a specific version
+ * @param {string} application id
  * @param {string} versionId
  * @param callback {err, data}
  */
-Connection.prototype.getVersion = function(versionId, callback) {
+Connection.prototype.getContent = function(appId, versionId, callback) {
+};
+
+/**
+ * Gets the version information for a specific
+ * @param {string} application id
+ * @param {string} versionId
+ * @param callback {err, data}
+ */
+Connection.prototype.getVersion = function(appId, versionId, callback) {
 };
 
 /**
