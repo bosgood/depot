@@ -21,7 +21,9 @@ MongoConnection.prototype.connect = function(env, callback) {
     "mongodb://" +
     this.env.get('stores:mongo:host') +
     ':' +
-    this.env.get('stores:mongo:port')
+    this.env.get('stores:mongo:port') +
+    '/' +
+    this.env.get('stores:mongo:collection')
   ;
 
   this.client = mongoose.connection;
