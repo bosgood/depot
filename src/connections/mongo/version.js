@@ -4,7 +4,8 @@ var Version = mongoose.model('Version', {
   createdAt: Date,
   versionId: String,
   applicationId: String,
-  isLatest: Boolean
+  isLatest: Boolean,
+  contents: String
 });
 
 module.exports = Version;

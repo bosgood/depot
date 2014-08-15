@@ -7,10 +7,11 @@ var route = function(db) {
 
   return function updateApplication(req, res) {
     var appId = req.param('id');
-    var urlSlug = req.param('urlSlug')
+    var urlSlug = req.param('urlSlug');
+    var contents = req.param('contents');
 
-    if (!appId || !urlSlug) {
-      res.status(400).send({ error: 'must provide appId, urlSlug' });
+    if (!appId || !urlSlug || !contents) {
+      res.status(400).send({ error: 'must provide appId, urlSlug, contents' });
       return;
     }
 
@@ -18,6 +19,7 @@ var route = function(db) {
     var params = {
       id: uuid.v4(),
       applicationId: appId,
+      contents: contents,
       urlSlug: urlSlug,
       createdAt: new Date().getTime()
     };

@@ -38,7 +38,7 @@ function(err, contents) { ... }
 
 * An application version is:
   * `String versionId`: uniquely identifies the application version
-  * `String indexPage`: the contents of `index.html`
+  * `String contents`: the contents of `index.html`
   * `Date createdAt`: the date this version was deployed
 
 ## Internals
@@ -59,7 +59,7 @@ SCHEMA
 │   └── version
 │         └─── String applicationId
 │         └─── String versionId
-│         └─── String indexPage
+│         └─── String contents
 │         └─── Date createdAt
 │     ...
 │   ]
