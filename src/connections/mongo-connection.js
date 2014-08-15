@@ -77,12 +77,42 @@ MongoConnection.prototype.getVersion = function(appId, versionId, callback) {
 };
 
 MongoConnection.prototype.getVersions = function(appId, limit, offset, callback) {
+  if (offset == null) {
+    offset = 0;
+  }
+
+  if (limit <= 0) {
+    limit = 20;
+  }
+
+  Version
+    .find({
+      applicationId: appId
+    })
+    .limit(limit)
+    .skip(offset)
+    .exec(callback)
+  ;
 };
 
 MongoConnection.prototype.updateVersion = function(appId, versionId, params, callback) {
 };
 
 MongoConnection.prototype.getApplications = function(limit, offset, callback) {
+  if (offset == null) {
+    offset = 0;
+  }
+
+  if (limit <= 0) {
+    limit = 20;
+  }
+
+  Application
+    .find({})
+    .limit(limit)
+    .skip(offset)
+    .exec(callback)
+  ;
 };
 
 MongoConnection.prototype.getApplication = function(appId, callback) {
