@@ -19,7 +19,7 @@ var route = function(db) {
     var params = {
       id: uuid.v4(),
       applicationId: appId,
-      name: versionId,
+      versionId: versionId,
       createdAt: new Date().getTime(),
       contents: contents
     };

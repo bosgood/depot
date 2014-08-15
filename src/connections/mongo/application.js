@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var Application = mongoose.model('Application', {
-  name: String,
+  applicationId: String,
   urlSlug: String,
   createdAt: Date
 });

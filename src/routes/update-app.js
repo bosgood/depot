@@ -17,7 +17,7 @@ var route = function(db) {
     var isNew = false;
     var params = {
       id: uuid.v4(),
-      name: appId,
+      applicationId: appId,
       urlSlug: urlSlug,
       createdAt: new Date().getTime()
     };
