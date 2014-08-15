@@ -1,10 +1,20 @@
-var express = require('express');
-var chalk = require('chalk');
+var express    = require('express');
+var chalk      = require('chalk');
 var bodyParser = require('body-parser');
+var nconf      = require('nconf');
+var path       = require('path');
 
-const PORT = 3005;
+nconf.argv().env();
 
-var Connection = require('./connections/redis-connection');
+const ENV = nconf.get('ENV') || 'dev';
+
+// /depot/config/<env>.json
+nconf.file(path.join('config', ENV.toLowerCase() + '.json'));
+
+// Dynamically load store: connections/<store>-connection
+var Connection = require(
+  './connections/' + nconf.get('store') + '-connection'
+);
 connection = new Connection().connect();
 
 var app = express()
@@ -45,13 +55,13 @@ app.get('/serve/:appId', require('./routes/serve-app')(connection));
 // deploy the app version by setting it as the latest version
 app.post('/deploy/:appId/:versionId', require('./routes/deploy-app')(connection));
 
-var server = app.listen(PORT, function() {
+var server = app.listen(nconf.get('port'), function() {
   console.log(
     chalk.red(
       'depot',
       chalk.yellow('listening'),
       chalk.green('on'),
-      chalk.blue(PORT)
+      chalk.blue(nconf.get('port'))
     )
   );
 });
