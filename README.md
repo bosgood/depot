@@ -49,7 +49,7 @@ function(err, contents) { ... }
 SCHEMA
 ├── applications [
 │   └── application
-│         └─── String name
+│         └─── String name (applicationId)
 │         └─── String urlSlug
 │         └─── Date createdDate
 │     ...
@@ -57,6 +57,7 @@ SCHEMA
 │
 ├── application versions [
 │   └── version
+│         └─── String applicationId
 │         └─── String versionId
 │         └─── String indexPage
 │         └─── Date createdDate
