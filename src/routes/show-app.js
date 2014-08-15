@@ -13,7 +13,7 @@ var route = function(db) {
         return;
       }
 
-      if (!data) {
+      if (!data || (Array.isArray(data) && !data.length)) {
         res.status(404).send({});
       } else {
         res.status(200).send(data);
