@@ -1,7 +1,7 @@
 depot
 =====
 
-Ships it for you. Lets you deploy and manage static JS apps, serves up the `index.html` for you. [https://github.com/bosgood/depot](https://github.com/bosgood/depot)
+Ships it for you. Lets you deploy and manage static JS apps, serves up the `index.html` for you.
 
 ### Rationale
 
