@@ -14,19 +14,14 @@ var route = function(db) {
     }
 
     // Update the latest with the contents of the specific version
-    _getContent(appId, versionId).then(function(contents) {
-      if (!contents) {
-        res.status(404).send({});
-      } else {
-        return _updateLatestContent(appId, contents)
-        .then(function(data) {
-          res.status(200).send(data);
-        });
+    db.updateLatestContent(appId, versionId, function(err, data) {
+      if (err) {
+        res.status(500).send({ error: err.toString() });
+        console.error(err.stack);
+        return;
       }
-    })
-    .catch(function(err) {
-      res.status(500).send({ error: err.toString() });
-      console.error(err.stack);
+
+      res.status(200).send({ res: data });
     });
   };
 }

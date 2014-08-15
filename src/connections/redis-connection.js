@@ -4,6 +4,7 @@
 
 var Connection = require('../connection');
 var redis = require('redis');
+var Promise = require('bluebird');
 
 var PREFIX = 'depot:';
 var KEYS = {
@@ -59,9 +60,17 @@ RedisConnection.prototype.getLatestContent = function(appId, callback) {
   });
 };
 
-RedisConnection.prototype.updateLatestContent = function(appId, contents, callback) {
-  this.client.set(KEYS.latest(appId), contents, function(err, res) {
-    callback(err, res);
+RedisConnection.prototype.updateLatestContent = function(appId, versionId, callback) {
+  client = this.client;
+  this.getContent(appId, versionId, function(err, contents) {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    client.set(KEYS.latest(appId), contents, function(err, res) {
+      callback(err, res);
+    });
   });
 };
 
