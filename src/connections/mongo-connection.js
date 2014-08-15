@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 
 var Version = require('./mongo/version');
 var Application = require('./mongo/application');
-var Content = require('./mongo/content');
 
 function MongoConnection() {
   this.connected = false;
@@ -55,7 +54,7 @@ MongoConnection.prototype.disconnect = function(callback) {
 };
 
 MongoConnection.prototype.getLatestContent = function(appId, callback) {
-  Content.find({
+  Version.findOne({
     applicationId: appId,
     isLatest: true
   }, callback);
@@ -65,7 +64,7 @@ MongoConnection.prototype.updateLatestContent = function(appId, versionId, callb
 };
 
 MongoConnection.prototype.getContent = function(appId, versionId, callback) {
-  Content.find({
+  Version.find({
     applicationId: appId,
     versionId: versionId
   }, callback);
