@@ -54,7 +54,7 @@ MongoConnection.prototype.disconnect = function(callback) {
 
 MongoConnection.prototype.getLatestContent = function(appId, callback) {
   Content.find({
-    appId: appId,
+    applicationId: appId,
     isLatest: true
   }, callback);
 };
@@ -64,14 +64,14 @@ MongoConnection.prototype.updateLatestContent = function(appId, versionId, callb
 
 MongoConnection.prototype.getContent = function(appId, versionId, callback) {
   Content.find({
-    appId: appId,
+    applicationId: appId,
     versionId: versionId
   }, callback);
 };
 
 MongoConnection.prototype.getVersion = function(appId, versionId, callback) {
-  Version.find({
-    appId: appId,
+  Version.findOne({
+    applicationId: appId,
     versionId: versionId
   }, callback);
 };
@@ -86,8 +86,8 @@ MongoConnection.prototype.getApplications = function(limit, offset, callback) {
 };
 
 MongoConnection.prototype.getApplication = function(appId, callback) {
-  Application.find({
-    appId: appId
+  Application.findOne({
+    applicationId: appId
   }, callback);
 };
 
