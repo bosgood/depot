@@ -1,0 +1,15 @@
+{
+  "ENV": "dev",
+  "port": 3005,
+  "store": "redis",
+  "stores": {
+    "redis": {
+      "host": "127.0.0.1",
+      "port": 6379
+    },
+    "mongo": {
+      "host": "127.0.0.1",
+      "port": 27017
+    }
+  }
+}
