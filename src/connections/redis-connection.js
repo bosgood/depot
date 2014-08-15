@@ -97,7 +97,7 @@ RedisConnection.prototype.updateVersion = function(appId, versionId, params, cal
 
   this.client.multi()
     .del(KEYS.version(appId, versionId))
-    .zadd(KEYS.versions(appId), params.createdDate, versionId)
+    .zadd(KEYS.versions(appId), params.createdAt, versionId)
     .hmset(KEYS.version(appId, versionId), params)
     .set(KEYS.content(appId, versionId), contents)
     .exec(function(err, res) {
@@ -128,7 +128,7 @@ RedisConnection.prototype.getApplication = function(appId, callback) {
 RedisConnection.prototype.updateApplication = function(appId, params, callback) {
   this.client.multi()
     .del(KEYS.app(appId))
-    .zadd(KEYS.apps(), params.createdDate, appId)
+    .zadd(KEYS.apps(), params.createdAt, appId)
     .hmset(KEYS.app(appId), params)
     .exec(function(err, res) {
       callback(err, res);

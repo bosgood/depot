@@ -20,19 +20,19 @@ var route = function(db) {
       id: uuid.v4(),
       applicationId: appId,
       name: versionId,
-      createdDate: new Date().getTime(),
+      createdAt: new Date().getTime(),
       contents: contents
     };
 
     _getVersion(appId, versionId)
     .then(function(data) {
-      // Version is being created, createdDate is now
+      // Version is being created, createdAt is now
       if (!data) {
         isNew = true;
       // Version already exists, keep the immutable properties
       } else {
         params.id = data.id;
-        params.createdDate = data.createdDate;
+        params.createdAt = data.createdAt;
       }
 
       return _updateVersion(appId, versionId, params)

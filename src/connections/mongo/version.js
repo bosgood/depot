@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var Version = mongoose.model('Version', {
-  createdDate: Date,
+  createdAt: Date,
   versionId: String,
   applicationId: String,
   isLatest: Boolean

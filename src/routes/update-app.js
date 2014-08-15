@@ -19,18 +19,18 @@ var route = function(db) {
       id: uuid.v4(),
       name: appId,
       urlSlug: urlSlug,
-      createdDate: new Date().getTime()
+      createdAt: new Date().getTime()
     };
 
     _getApplication(appId)
     .then(function(data) {
-      // App is being created, createdDate is now
+      // App is being created, createdAt is now
       if (!data) {
         isNew = true;
       // App already exists, keep the immutable properties
       } else {
         params.id = data.id;
-        params.createdDate = data.createdDate;
+        params.createdAt = data.createdAt;
       }
 
       return _updateApplication(appId, params)
