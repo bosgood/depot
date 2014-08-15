@@ -53,12 +53,17 @@ MongoConnection.prototype.disconnect = function(callback) {
 };
 
 MongoConnection.prototype.getLatestContent = function(appId, callback) {
+  Content.find({
+    appId: appId,
+    isLatest: true
+  }, callback);
 };
 
 MongoConnection.prototype.updateLatestContent = function(appId, versionId, callback) {
 };
 
 MongoConnection.prototype.getContent = function(appId, versionId, callback) {
+
 };
 
 MongoConnection.prototype.getVersion = function(appId, versionId, callback) {
