@@ -15,7 +15,7 @@ nconf.file(path.join('config', ENV.toLowerCase() + '.json'));
 var Connection = require(
   './connections/' + nconf.get('store') + '-connection'
 );
-connection = new Connection().connect();
+connection = new Connection().connect(nconf);
 
 var app = express()
   .use(bodyParser.urlencoded({

@@ -9,7 +9,8 @@ function Connection() {
  * Connects to the datastore
  * @param callback {err, data}
  */
-Connection.prototype.connect = function(callback) {
+Connection.prototype.connect = function(env, callback) {
+  this.env = env;
   this.connected = true;
   return this;
 };
