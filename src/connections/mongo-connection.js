@@ -3,6 +3,7 @@
  */
 var Connection = require('../connection');
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
 
 var Version = require('./mongo/version');
 var Application = require('./mongo/application');
@@ -54,6 +55,25 @@ MongoConnection.prototype.disconnect = function(callback) {
 };
 
 MongoConnection.prototype.getLatestContent = function(appId, callback) {
+  var _findOne = Promise.promisify(Version.findOne).bind(Version);
+  _findOne({
+    applicationId: appId,
+    isLatest: true
+  }, 'contents')
+    .then(function(data) {
+      if (!data) {
+        callback({ error: 'latest content not found' });
+        return;
+      }
+      callback(null, data.contents);
+    })
+    .catch(function(err) {
+      callback(err);
+    })
+  ;
+};
+
+MongoConnection.prototype.getLatestVersion = function(appId, callback) {
   Version.findOne({
     applicationId: appId,
     isLatest: true
@@ -61,13 +81,71 @@ MongoConnection.prototype.getLatestContent = function(appId, callback) {
 };
 
 MongoConnection.prototype.updateLatestContent = function(appId, versionId, callback) {
+  var _findOneAndUpdate = Promise.promisify(Version.findOneAndUpdate).bind(Version);
+  var _getLatestVersion = Promise.promisify(this.getLatestVersion).bind(this);
+
+  // Order of operations, in sequence:
+  //  - Get the previous `latest` version so we know which one it was
+  //  - Set the desired one as the `latest`
+  //  - Unset the previous `latest` version
+  // This way, we briefly have dual versions released, but there is never a
+  // moment when there is no `latest` version to serve.
+
+  var previousLatestQuery = {
+    applicationId: appId
+  };
+
+  var hadPreviousLatest = false;
+
+  var newLatestQuery = {
+    applicationId: appId,
+    versionId: versionId
+  };
+
+  var setLatest = { isLatest: true };
+  var unsetLatest = { isLatest: false };
+
+  _getLatestVersion(appId)
+    .then(function(previousLatestData) {
+      if (previousLatestData) {
+        hadPreviousLatest = true;
+        previousLatestQuery.versionId = previousLatestData.versionId;
+      }
+      return _findOneAndUpdate(newLatestQuery, setLatest);
+    })
+    .then(function(data) {
+      if (hadPreviousLatest) {
+        return _findOneAndUpdate(previousLatestQuery, unsetLatest);
+      } else {
+        return data;
+      }
+    })
+    .then(function(data) {
+      callback(null, data);
+    })
+    .catch(function(err) {
+      callback(err);
+    })
+  ;
 };
 
 MongoConnection.prototype.getContent = function(appId, versionId, callback) {
-  Version.find({
+  var _findOne = Promise.promisify(Version.findOne).bind(Version);
+  _findOne({
     applicationId: appId,
     versionId: versionId
-  }, callback);
+  }, 'contents')
+    .then(function(data) {
+      if (!data) {
+        callback({ error: 'latest content not found' });
+        return;
+      }
+      callback(null, data.contents);
+    })
+    .catch(function(err) {
+      callback(err);
+    })
+  ;
 };
 
 MongoConnection.prototype.getVersion = function(appId, versionId, callback) {
