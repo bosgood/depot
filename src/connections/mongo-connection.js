@@ -98,6 +98,13 @@ MongoConnection.prototype.getVersions = function(appId, limit, offset, callback)
 };
 
 MongoConnection.prototype.updateVersion = function(appId, versionId, params, callback) {
+  Version.findOneAndUpdate({
+    applicationId: appId,
+    versionId: versionId
+  },
+  params, {
+    upsert: true
+  }, callback);
 };
 
 MongoConnection.prototype.getApplications = function(limit, offset, callback) {
@@ -124,6 +131,12 @@ MongoConnection.prototype.getApplication = function(appId, callback) {
 };
 
 MongoConnection.prototype.updateApplication = function(appId, params, callback) {
+  Application.findOneAndUpdate({
+    applicationId: appId
+  },
+  params, {
+    upsert: true
+  }, callback);
 };
 
 module.exports = MongoConnection;
