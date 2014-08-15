@@ -96,6 +96,7 @@ MongoConnection.prototype.updateLatestContent = function(appId, versionId, callb
   };
 
   var hadPreviousLatest = false;
+  var versionAlreadyDeployed = false;
 
   var newLatestQuery = {
     applicationId: appId,
@@ -110,11 +111,17 @@ MongoConnection.prototype.updateLatestContent = function(appId, versionId, callb
       if (previousLatestData) {
         hadPreviousLatest = true;
         previousLatestQuery.versionId = previousLatestData.versionId;
+
+        // Version being deployed is already deployed!
+        if (previousLatestData.versionId === versionId) {
+          versionAlreadyDeployed = true;
+          return previousLatestData;
+        }
       }
       return _findOneAndUpdate(newLatestQuery, setLatest);
     })
     .then(function(data) {
-      if (hadPreviousLatest) {
+      if (hadPreviousLatest && !versionAlreadyDeployed) {
         return _findOneAndUpdate(previousLatestQuery, unsetLatest);
       } else {
         return data;
