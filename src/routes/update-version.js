@@ -18,6 +18,7 @@ var route = function(db) {
     var isNew = false;
     var params = {
       id: uuid.v4(),
+      applicationId: appId,
       name: versionId,
       createdDate: new Date().getTime(),
       contents: contents
