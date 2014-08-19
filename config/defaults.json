@@ -11,5 +11,13 @@
       "host": "127.0.0.1",
       "port": 27017
     }
+  },
+  "deploy": {
+    "host": "localhost",
+    "port": 22,
+    "path": "/var/www/depot",
+    "user": "ec2-user",
+    "password": "secret",
+    "privateKey": "/absolute/path/to/a/key.pem"
   }
 }
