@@ -22,6 +22,12 @@ The general solution:
 
 * `depot` serves your `index.html` for you, of any version you ask for, or `latest` if none is provided. This allows you to deploy a version of your application and have it testable in production without "promoting" it to `latest`.
 
+## Deploying
+
+* Run `npm install`
+* To deploy the version but not promote to `latest`, run `gulp deploy`
+* To deploy and promote immediately, run `gulp deploy-latest`.
+
 ## Implementing depot persistence yourself
 
 ### Implementing a `Connection` adapter

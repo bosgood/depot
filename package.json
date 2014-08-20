@@ -38,5 +38,12 @@
     "nconf": "^0.6.9",
     "node-uuid": "^1.4.1",
     "redis": "^0.12.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-rimraf": "^0.1.0",
+    "gulp-ssh": "0.0.2",
+    "run-sequence": "^0.3.6",
+    "scp2": "^0.1.4"
   }
 }
