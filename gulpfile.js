@@ -40,7 +40,11 @@ gulp.task('prepare', function() {
   nconf.file(envFile);
   var version = createVersionNumber();
   nconf.set('version', version);
-  return gulp.src(['src/**/*', envFile])
+  return gulp.src([
+      '**/*',
+      '!./node_modules/**',
+      '!./tmp/**'
+  ])
     .pipe(gulp.dest(path.join('tmp', version)));
 });
 
