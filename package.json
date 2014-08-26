@@ -30,6 +30,7 @@
     "node": "~v0.10.29"
   },
   "dependencies": {
+    "bluebird": "^2.3.2",
     "body-parser": "^1.6.3",
     "chalk": "^0.5.1",
     "express": "^4.8.3",
