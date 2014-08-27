@@ -10,6 +10,7 @@ var fs     = require('fs');
 var rimraf = require('gulp-rimraf');
 
 nconf.argv().env();
+var configLoaded = false;
 
 const ENV = nconf.get('ENV') || 'dev';
 
@@ -18,10 +19,25 @@ function exitWithError(errorMessage) {
   throw new Error(errorMessage);
 }
 
+function uniqueId() {
+  return 'xxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+  });
+}
+
+function ensureConfigLoaded() {
+  if (configLoaded) {
+    return;
+  }
+  nconf.file(path.join('config', ENV + '.json'));
+  configLoaded = true;
+}
+
 // Gets a unique version number
-// 2014-08-16--a4d4bd9f-c7f5-4ffb-917e-1732892d97df
+// 2014-08-16--a4d4bd9f
 function createVersionNumber() {
-  return new Date().toJSON().slice(0, 10) + '--' + uuid.v4();
+  return new Date().toJSON().slice(0, 10) + '--' + uniqueId();
 }
 
 gulp.task('clean', function() {
@@ -36,10 +52,9 @@ gulp.task('check-env', function() {
 });
 
 gulp.task('prepare', function() {
-  var envFile = path.join('config', ENV + '.json');
-  nconf.file(envFile);
+  ensureConfigLoaded();
   var version = createVersionNumber();
-  nconf.set('version', version);
+  nconf.set('deployVersion', version);
   return gulp.src([
       '**/*',
       '!./node_modules/**',
@@ -49,7 +64,7 @@ gulp.task('prepare', function() {
 });
 
 gulp.task('upload', function(callback) {
-  var version = nconf.get('version');
+  var version = nconf.get('deployVersion');
   var deployRootPath = nconf.get('deploy:path');
 
   var scpParams = {
@@ -103,8 +118,7 @@ gulp.task('deploy', function(callback) {
 });
 
 gulp.task('set-latest', function() {
-  var envFile = path.join('config', ENV + '.json');
-  nconf.file(envFile);
+  ensureConfigLoaded();
   var version = nconf.get('deployVersion');
   if (!version) {
     exitWithError('must specify a version to deploy (deployVersion=XXX-XXX).');
@@ -139,4 +153,6 @@ gulp.task('set-latest', function() {
   });
 });
 
-gulp.task('deploy-latest', ['deploy', 'set-latest']);
+gulp.task('deploy-latest', function(callback) {
+  return runSequence('deploy', 'set-latest', callback);
+});
