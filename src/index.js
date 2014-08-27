@@ -3,6 +3,7 @@ var chalk      = require('chalk');
 var bodyParser = require('body-parser');
 var nconf      = require('nconf');
 var path       = require('path');
+var authLayer  = require('./authentication');
 
 nconf.argv().env();
 
@@ -30,6 +31,7 @@ var app = express()
     extended: true
   }))
   .use(bodyParser.json())
+  .use(authLayer(nconf))
 ;
 
 // list available apps

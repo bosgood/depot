@@ -2,6 +2,8 @@
   "ENV": "dev",
   "port": 3005,
   "store": "redis",
+  "secret": null,
+  "secretUrlParameter": "secret",
   "stores": {
     "redis": {
       "host": "127.0.0.1",
