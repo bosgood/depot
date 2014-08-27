@@ -44,7 +44,10 @@ MongoConnection.prototype.connect = function(env, callback) {
       });
     }
   });
-  mongoose.connect(connectionString);
+  mongoose.connect(connectionString, {
+    user: this.env.get('stores:mongo:username'),
+    pass: this.env.get('stores:mongo:password')
+  });
   return this;
 };
 
