@@ -31,7 +31,9 @@ var app = express()
     extended: true
   }))
   .use(bodyParser.json())
-  .use(authLayer(nconf))
+  .use(authLayer(nconf, {
+    noAuthPatterns: [/^\/serve/]  // no auth required to serve apps
+  }))
 ;
 
 // list available apps
