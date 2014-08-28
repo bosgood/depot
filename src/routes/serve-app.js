@@ -6,7 +6,7 @@ var route = function(db) {
 
   return function serveApp(req, res) {
     var appId = req.param('appId');
-    var versionId = req.param('versionId');
+    var versionId = req.param('version');
 
     if (!appId) {
       res.status(400).send({ error: 'must provide appId' });
