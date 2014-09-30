@@ -19,6 +19,7 @@ var Connection = require(
 connection = new Connection().connect(nconf, function(err, details) {
   if (err) {
     console.error(chalk.red('error connecting to database'));
+    console.log(err);
   } else {
     console.log(
       chalk.green('successfully connected to ' + details.store + ' (' + details.connectionString + ')')
