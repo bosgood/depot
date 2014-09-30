@@ -61,7 +61,7 @@ app.put('/apps/:id', addUpdateRoute);
 
 // serve latest index.html of app listed
 // use ?version=<versionId> to request a specific version
-app.get('/serve/:appId*', require('./routes/serve-app')(connection));
+app.get('/serve/:urlSlug*', require('./routes/serve-app')(connection));
 
 // deploy the app version by setting it as the latest version
 app.post('/deploy/:appId/:versionId', require('./routes/deploy-app')(connection));

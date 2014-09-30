@@ -5,20 +5,20 @@ var route = function(db) {
   _getContent = Promise.promisify(db.getContent).bind(db);
 
   return function serveApp(req, res) {
-    var appId = req.param('appId');
+    var urlSlug = req.param('urlSlug');
     var versionId = req.param('version');
 
-    if (!appId) {
-      res.status(400).send({ error: 'must provide appId' });
+    if (!urlSlug) {
+      res.status(400).send({ error: 'must provide urlSlug' });
       return;
     }
 
     // Serve the latest or a specific version based on :versionId parameter
     var promise;
     if (versionId) {
-      promise = _getContent(appId, versionId);
+      promise = _getContent(urlSlug, versionId);
     } else {
-      promise = _getLatestContent(appId);
+      promise = _getLatestContent(urlSlug);
     }
 
     promise.then(function(data) {
