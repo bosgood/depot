@@ -57,17 +57,18 @@ MongoConnection.prototype.disconnect = function(callback) {
   return this;
 };
 
-MongoConnection.prototype.getLatestContent = function(appId, callback) {
-  var _findOne = Promise.promisify(Version.findOne).bind(Version);
-  _findOne({
-    applicationId: appId,
-    isLatest: true
-  }, 'contents')
+MongoConnection.prototype.getLatestContent = function(urlSlug, callback) {
+  var _findOneApplication = Promise.promisify(Application.findOne).bind(Application);
+  var _findOneVersion = Promise.promisify(Version.findOne).bind(Version);
+  _findOneApplication({urlSlug: urlSlug}, 'applicationId')
     .then(function(data) {
       if (!data) {
-        callback({ error: 'latest content not found' });
+        callback(null, null);
         return;
       }
+      return _findOneVersion({applicationId: data.applicationId, isLatest: true}, 'contents');
+    })
+    .then(function(data) {
       callback(null, data.contents);
     })
     .catch(function(err) {
@@ -139,17 +140,18 @@ MongoConnection.prototype.updateLatestContent = function(appId, versionId, callb
   ;
 };
 
-MongoConnection.prototype.getContent = function(appId, versionId, callback) {
-  var _findOne = Promise.promisify(Version.findOne).bind(Version);
-  _findOne({
-    applicationId: appId,
-    versionId: versionId
-  }, 'contents')
+MongoConnection.prototype.getContent = function(urlSlug, versionId, callback) {
+  var _findOneApplication = Promise.promisify(Application.findOne).bind(Application);
+  var _findOneVersion = Promise.promisify(Version.findOne).bind(Version);
+  _findOneApplication({urlSlug: urlSlug}, 'applicationId')
     .then(function(data) {
       if (!data) {
-        callback({ error: 'latest content not found' });
+        callback(null, null);
         return;
       }
+      return _findOneVersion({applicationId: data.applicationId, versionId: versionId}, 'contents');
+    })
+    .then(function(data) {
       callback(null, data.contents);
     })
     .catch(function(err) {
